@@ -1,12 +1,21 @@
+# CMake 安装前缀 (CMake install prefix)
 prefix=@CMAKE_INSTALL_PREFIX@
+# 可执行文件安装前缀 (Executables install prefix)
 exec_prefix=@CMAKE_INSTALL_PREFIX@
+# 库文件安装目录 (Library files install directory)
 libdir=${prefix}/lib
+# 头文件安装目录 (Header files install directory)
 includedir=${prefix}/include
 
+# 包名 (Package name)
 Name: @TARGET_NAME@
+# 包描述 (Package description)
 Description: @PROJECT_DESCRIPTION@
+# 包版本 (Package version)
 Version: @PROJECT_VERSION@
+# 依赖项 (Dependencies)
 Requires: @PKGCONFIG_REQUIRES@
+# 链接库选项 (Linking library options)
 Libs: -L${libdir} -l@TARGET_NAME@ @PKGCONFIG_LIBS@
+# 编译时头文件选项 (Compilation header file options)
 Cflags: -I${includedir} @PKGCONFIG_CFLAGS@
-

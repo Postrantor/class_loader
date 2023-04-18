@@ -34,40 +34,31 @@
 //     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-  #ifdef __GNUC__
-    #define CLASS_LOADER_EXPORT __attribute__ ((dllexport))
-    #define CLASS_LOADER_IMPORT __attribute__ ((dllimport))
-  #else
-    #define CLASS_LOADER_EXPORT __declspec(dllexport)
-    #define CLASS_LOADER_IMPORT __declspec(dllimport)
-  #endif
-  #ifdef CLASS_LOADER_BUILDING_DLL
-    #define CLASS_LOADER_PUBLIC CLASS_LOADER_EXPORT
-  #else
-    #define CLASS_LOADER_PUBLIC CLASS_LOADER_IMPORT
-  #endif
-  #define CLASS_LOADER_PUBLIC_TYPE CLASS_LOADER_PUBLIC
-  #define CLASS_LOADER_LOCAL
+#ifdef __GNUC__
+#define CLASS_LOADER_EXPORT __attribute__((dllexport))
+#define CLASS_LOADER_IMPORT __attribute__((dllimport))
 #else
-  #define CLASS_LOADER_EXPORT __attribute__ ((visibility("default")))
-  #define CLASS_LOADER_IMPORT
-  #if __GNUC__ >= 4
-    #define CLASS_LOADER_PUBLIC __attribute__ ((visibility("default")))
-    #define CLASS_LOADER_LOCAL  __attribute__ ((visibility("hidden")))
-  #else
-    #define CLASS_LOADER_PUBLIC
-    #define CLASS_LOADER_LOCAL
-  #endif
-  #define CLASS_LOADER_PUBLIC_TYPE
+#define CLASS_LOADER_EXPORT __declspec(dllexport)
+#define CLASS_LOADER_IMPORT __declspec(dllimport)
+#endif
+#ifdef CLASS_LOADER_BUILDING_DLL
+#define CLASS_LOADER_PUBLIC CLASS_LOADER_EXPORT
+#else
+#define CLASS_LOADER_PUBLIC CLASS_LOADER_IMPORT
+#endif
+#define CLASS_LOADER_PUBLIC_TYPE CLASS_LOADER_PUBLIC
+#define CLASS_LOADER_LOCAL
+#else
+#define CLASS_LOADER_EXPORT __attribute__((visibility("default")))
+#define CLASS_LOADER_IMPORT
+#if __GNUC__ >= 4
+#define CLASS_LOADER_PUBLIC __attribute__((visibility("default")))
+#define CLASS_LOADER_LOCAL __attribute__((visibility("hidden")))
+#else
+#define CLASS_LOADER_PUBLIC
+#define CLASS_LOADER_LOCAL
+#endif
+#define CLASS_LOADER_PUBLIC_TYPE
 #endif
 
-// based on wiki.ros.org: http://wiki.ros.org/win_ros/Contributing/Dll%20Exports
-// Ignore warnings about import/exports when deriving from std classes.
-// https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4251
-// https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4275
-#ifdef _MSC_VER
-  #pragma warning(disable: 4251)
-  #pragma warning(disable: 4275)
-#endif
-
-#endif  // CLASS_LOADER__VISIBILITY_CONTROL_HPP_
+#endif // CLASS_LOADER__VISIBILITY_CONTROL_HPP_
